@@ -1,0 +1,44 @@
+# Fichiers Python compilés
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environnements virtuels
+venv/
+.env/
+*.env
+
+# Dépendances installées
+*.egg-info/
+*.dist-info/
+
+# Logs et fichiers temporaires
+*.log
+*.tmp
+*.swp
+
+# Fichiers spécifiques à l'IDE
+.vscode/
+.idea/
+*.iml
+
+# Fichiers de base de données temporaires
+*.sqlite3
+*.db
+
+# Docker
+docker-compose.override.yml
+.env.docker
+
+# Clés et configurations sensibles
+config.json
+secrets.json
+
+# Jupyter Notebooks checkpoints
+.ipynb_checkpoints/
+
+# Fichiers générés par tests et coverage
+.coverage
+htmlcov/
+nosetests.xml
+pytest_cache/

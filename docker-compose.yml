@@ -1,0 +1,40 @@
+version: "3.8"
+
+services:
+  app:
+    image: hermesn/convertissor_worker:latest
+    container_name: worker_conatainer
+    depends_on:
+      - db
+    environment:
+      - DATABASE_HOST=db
+      - DATABASE_USER=root
+      - DATABASE_PASSWORD=rootpassword
+      - DATABASE_NAME=mydatabase
+
+      - my_network
+    volumes:
+      - .:/app
+
+  db:
+    image: mysql:8.0
+    container_name: mysql_db_worker
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: mydatabase
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: mypassword
+    ports:
+      - "3306:3306"
+    networks:
+      - my_network
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
+
+networks:
+  my_network:
+    external: true
