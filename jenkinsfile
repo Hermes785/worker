@@ -49,9 +49,6 @@ stage('Setup Python Environment') {
                 script {
                     sh '''
                     venv/bin/python -m pip install -r requirements.txt
-
-                    # Suppression de fitz s'il pose problème
-                    rm -rf fitz || true
                     '''
                 }
             }
