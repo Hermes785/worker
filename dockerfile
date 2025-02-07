@@ -6,11 +6,18 @@ WORKDIR /app
 
 RUN pip install pymupdf
 
+RUN pip install python-docx
+
+
 # Copy the requirements file into the container
 COPY requirements.txt /app/
 
-# Install dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+
+# Installer les dépendances dans un venv et mettre à jour pip proprement
+RUN python -m venv /venv && \
+    /venv/bin/pip install --upgrade pip && \
+    /venv/bin/pip install --no-cache-dir -r requirements.txt
+
 
 # Copy the rest of the application code into the container
 COPY . /app/
