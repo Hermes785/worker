@@ -82,7 +82,7 @@ stage('Setup Python Environment') {
                     docker rm worker_container || true
                     docker-compose -f docker-compose.yml pull
                     docker-compose -f docker-compose.yml up -d
-                    slepp 30
+                    slepp 20
                     docker logs worker_container
                     '''
                 }
