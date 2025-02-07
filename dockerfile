@@ -32,7 +32,7 @@ RUN apk add --no-cache \
 COPY requirements.txt /app/
 
 # Copier tout le code dans l'image
-COPY . /app/
+COPY . .
 
 EXPOSE 5000
 
