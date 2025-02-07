@@ -34,6 +34,8 @@ COPY requirements.txt /app/
 # Copier tout le code dans l'image
 COPY . /app/
 
+EXPOSE 5000
+
 
 # Définir la commande par défaut
 CMD ["python", "worker.py"]

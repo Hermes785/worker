@@ -11,6 +11,8 @@ services:
       - DATABASE_USER=root
       - DATABASE_PASSWORD=rootpassword
       - DATABASE_NAME=file_convert
+    ports:
+      - "5700:5000"
 
     networks:
       - my_network
