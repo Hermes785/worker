@@ -31,6 +31,8 @@ stage('Setup Python Environment') {
             
             # Désinstaller d'éventuelles versions corrompues
             venv/bin/python -m pip uninstall -y PyMuPDF pymupdf fitz || true
+            venv/bin/python -m pip install --no-cache-dir --force-reinstall PyMuPDF
+
             
 
             # Enregistrer les paquets installés

@@ -29,7 +29,7 @@ RUN apk add --no-cache \
     libffi-dev
 
 # Copier le fichier requirements.txt dans l'image
-COPY requirements.txt /app/
+COPY requirements.txt ./
 
 # Copier tout le code dans l'image
 COPY . .
