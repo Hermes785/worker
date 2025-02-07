@@ -54,7 +54,7 @@ def minioUploadDocsFile(bucket_Name,source_file,destination_file):
 def sendToBD(requestId,bucket_Name,file_path,destination_file,urlGenerated):
     try:
         mydb = mysql.connector.connect(
-        host="mysql_db_worker,
+        host="mysql_db_worker",
         user="myuser",
         password="rootpassword")
         mycursor = mydb.cursor()
