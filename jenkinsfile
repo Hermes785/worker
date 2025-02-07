@@ -18,14 +18,9 @@ pipeline {
             steps {
                 script {
                     sh '''
-                    # Installer python3-venv si nécessaire (Debian/Ubuntu)
-                    if ! dpkg -s python3-venv >/dev/null 2>&1; then
-                        sudo apt update && sudo apt install -y python3-venv
-                    fi
-
-                    # Créer et activer l'environnement virtuel avec bash
-                    python3 -m venv venv
-                    bash -c "source venv/bin/activate && pip install --upgrade pip"
+                      apt-get update
+                      apt-get install python3
+                     apt-get install python3-pip
                     '''
                 }
             }
