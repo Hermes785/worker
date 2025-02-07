@@ -3,15 +3,16 @@ version: "3.8"
 services:
   app:
     image: hermesn/convertissor_worker:latest
-    container_name: worker_conatainer
+    container_name: worker_container
     depends_on:
       - db
     environment:
       - DATABASE_HOST=db
       - DATABASE_USER=root
       - DATABASE_PASSWORD=rootpassword
-      - DATABASE_NAME=mydatabase
+      - DATABASE_NAME=file_convert
 
+    networks:
       - my_network
     volumes:
       - .:/app
@@ -22,7 +23,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: mydatabase
+      MYSQL_DATABASE: file_convert
       MYSQL_USER: myuser
       MYSQL_PASSWORD: mypassword
     ports:

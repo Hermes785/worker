@@ -54,9 +54,9 @@ def minioUploadDocsFile(bucket_Name,source_file,destination_file):
 def sendToBD(requestId,bucket_Name,file_path,destination_file,urlGenerated):
     try:
         mydb = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="")
+        host="mysql_db_worker,
+        user="myuser",
+        password="rootpassword")
         mycursor = mydb.cursor()
         mycursor.execute("CREATE DATABASE IF NOT EXISTS file_convert ")
         print("Base de données créée avec succès.")
