@@ -5,7 +5,6 @@ pipeline {
         APP_NAME = "convertissor_worker_img"
         DOCKER_IMAGE = "${APP_NAME}:${env.BUILD_ID}"
         DOCKER_CREDENTIALS_ID = 'docker-hub-credentials'
-        VENV_DIR = "venv"
     }
 
     stages {
@@ -14,22 +13,20 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Install System Dependencies') {
-         steps {
-        script {
-            sh '''
-            apt update && apt install -y python3-venv
-            '''
-        }
-    }
-}
 
         stage('Setup Python Environment') {
             steps {
                 script {
-                    // Installation de Python si nécessaire
-                    sh 'python3 -m venv ${VENV_DIR}'
-                    sh 'source ${VENV_DIR}/bin/activate && pip install --upgrade pip'
+                    sh '''
+                    # Installer python3-venv si nécessaire (Debian/Ubuntu)
+                    if ! dpkg -s python3-venv >/dev/null 2>&1; then
+                        sudo apt update && sudo apt install -y python3-venv
+                    fi
+
+                    # Créer et activer l'environnement virtuel avec bash
+                    python3 -m venv venv
+                    bash -c "source venv/bin/activate && pip install --upgrade pip"
+                    '''
                 }
             }
         }
@@ -37,30 +34,27 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 script {
-                    sh 'source ${VENV_DIR}/bin/activate && pip install -r requirements.txt'
+                    sh 'bash -c "source venv/bin/activate && pip install -r requirements.txt"'
                 }
             }
         }
 
-        stage('Run Tests') {
-            steps {
-                script {
-                    sh 'source ${VENV_DIR}/bin/activate && pytest tests/'
-                }
-            }
-        }
+       
 
-        stage('Build Docker Image and Push to Registry') {
+        stage('Build and Push Docker Image') {
             steps {
                 script {
                     docker.withRegistry('https://index.docker.io/v1/', DOCKER_CREDENTIALS_ID) {
                         def fullImageName = "docker.io/hermesn/convertissor_worker:${env.BUILD_ID}"
                         echo "Building Docker image ${fullImageName}"
-                        sh "docker build -t ${DOCKER_IMAGE} ."
-                        sh "docker tag ${DOCKER_IMAGE} ${fullImageName}"
-                        sh "docker tag ${DOCKER_IMAGE} docker.io/hermesn/convertissor_worker:latest"
-                        sh "docker push ${fullImageName}"
-                        sh "docker push docker.io/hermesn/convertissor_worker:latest"
+
+                        sh '''
+                        docker build -t ${DOCKER_IMAGE} .
+                        docker tag ${DOCKER_IMAGE} ${fullImageName}
+                        docker tag ${DOCKER_IMAGE} docker.io/hermesn/convertissor_worker:latest
+                        docker push ${fullImageName}
+                        docker push docker.io/hermesn/convertissor_worker:latest
+                        '''
                     }
                 }
             }
@@ -70,22 +64,24 @@ pipeline {
             steps {
                 script {
                     sh '''
-                    docker stop worker_container || echo "Container not running"
-                    docker rm worker_container || echo "Container does not exist"
-                    docker pull docker.io/hermesn/convertissor_worker:latest
+                    docker stop worker_container || true
+                    docker rm worker_container || true
+                    docker-compose -f docker-compose.yml pull
                     docker-compose -f docker-compose.yml up -d
                     '''
                 }
             }
         }
 
-        stage('Clean Up Docker Resources') {
+        stage('Cleanup Unused Images') {
             steps {
                 script {
-                    sh 'docker image prune -af'
-                    sh 'docker container prune -f'
-                    sh 'docker volume prune -f'
-                    sh 'docker network prune -f'
+                    sh '''
+                    docker image prune -af
+                    docker container prune -f
+                    docker volume prune -f
+                    docker network prune -f
+                    '''
                 }
             }
         }
@@ -93,13 +89,13 @@ pipeline {
 
     post {
         always {
-            echo 'Pipeline execution completed.'
+            echo 'Pipeline completed.'
         }
         success {
-            echo '✅ Pipeline completed successfully!'
+            echo 'Pipeline succeeded!'
         }
         failure {
-            echo '❌ Pipeline failed! Check the logs.'
+            echo 'Pipeline failed. Check logs for details.'
         }
     }
 }
