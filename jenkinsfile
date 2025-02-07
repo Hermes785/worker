@@ -19,17 +19,14 @@ pipeline {
                 script {
                     sh '''
                     # Installer python3-venv si nécessaire (Debian/Ubuntu)
-                    if ! dpkg -s python3-venv >/dev/null 2>&1; then
+                    if ! command -v python3 -m venv >/dev/null 2>&1; then
                         sudo apt update && sudo apt install -y python3-venv
                     fi
 
-                    # Créer et activer l'environnement virtuel avec bash
+                    # Créer et activer l'environnement virtuel
                     python3 -m venv venv
-                    bash -c "source venv/bin/activate && pip install --upgrade pip &&  pip freeze &&  pip freeze > requirements.txt"
-
-                   
-                   
-                              
+                    venv/bin/python -m pip install --upgrade pip
+                    venv/bin/python -m pip freeze > requirements.txt
                     '''
                 }
             }
@@ -38,15 +35,15 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 script {
-                    
-                    sh 'bash -c "source venv/bin/activate && pip install -r requirements.txt"'
-                    sh 'rm -ri fitz || true'
-                   
+                    sh '''
+                    venv/bin/python -m pip install -r requirements.txt
+
+                    # Suppression de fitz s'il pose problème
+                    rm -rf fitz || true
+                    '''
                 }
             }
         }
-
-       
 
         stage('Build and Push Docker Image') {
             steps {
@@ -55,7 +52,6 @@ pipeline {
                         def fullImageName = "docker.io/hermesn/convertissor_worker:${env.BUILD_ID}"
                         echo "Building Docker image ${fullImageName}"
 
-                     echo "Building Docker image ${fullImageName}"
                         sh "docker build -t ${DOCKER_IMAGE} ."
                         sh "docker tag ${DOCKER_IMAGE} ${fullImageName}"
                         sh "docker tag ${DOCKER_IMAGE} docker.io/hermesn/convertissor_worker:latest"
