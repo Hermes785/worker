@@ -26,18 +26,19 @@ stage('Setup Python Environment') {
             python3 -m venv venv
             venv/bin/python -m pip install --upgrade pip
             
-            # Installer les dépendances dans le venv
-            venv/bin/python -m pip uninstall  PyMuPDF --no-cache-dir pymupdf
-            venv/bin/python -m pip uninstall fitz
-            venv/bin/python -m pip install PyMuPDF==1.16.14  
-           # venv/bin/python -m pip install fitz               
+            # Désinstaller d'éventuelles versions corrompues
+            venv/bin/python -m pip uninstall -y PyMuPDF pymupdf fitz || true
             
+            # Réinstaller PyMuPDF
+            venv/bin/python -m pip install --no-cache-dir PyMuPDF==1.16.14  
+
             # Enregistrer les paquets installés
             venv/bin/python -m pip freeze > requirements.txt
             '''
         }
     }
 }
+
 
 
         stage('Install Dependencies') {
