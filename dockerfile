@@ -17,6 +17,8 @@ COPY requirements.txt /app/
 RUN python -m venv /venv && \
     /venv/bin/pip install --upgrade pip && \
     /venv/bin/pip install --no-cache-dir -r requirements.txt
+ RUN pip install --no-cache-dir numpy pdf2docx
+
 
 
 # Copy the rest of the application code into the container
