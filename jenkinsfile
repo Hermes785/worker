@@ -72,9 +72,6 @@ pipeline {
             steps {
                 script {
                     sh '''
-                     sh 'ls ./app || true'
-                    sh 'ls /app || true'
-                    sh 'cat requirements.txt'
                     docker stop worker_container || true
                     docker rm worker_container || true
                     docker-compose -f docker-compose.yml pull
