@@ -31,16 +31,9 @@ RUN apk add --no-cache \
 # Copier le fichier requirements.txt dans l'image
 COPY requirements.txt /app/
 
-# Créer un environnement virtuel et installer les dépendances
-RUN python -m venv /venv && \
-    /venv/bin/pip install --upgrade pip && \
-    /venv/bin/pip install --no-cache-dir -r requirements.txt
-
 # Copier tout le code dans l'image
 COPY . /app/
 
-# Spécifier que le conteneur utilisera le venv
-ENV PATH="/venv/bin:$PATH"
 
 # Définir la commande par défaut
 CMD ["python", "worker.py"]

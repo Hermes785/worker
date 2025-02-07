@@ -26,7 +26,9 @@ pipeline {
                     # Créer et activer l'environnement virtuel
                     python3 -m venv venv
                     venv/bin/python -m pip install --upgrade pip
+                     pip install --no-cache-dir pymupdf
                     venv/bin/python -m pip freeze > requirements.txt
+                   
                     '''
                 }
             }
