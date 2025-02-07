@@ -9,6 +9,7 @@ from datetime import timedelta
 # Initialisation du client MinIO une seule fois
 minio_client = Minio(
     "play.min.io",
+     region= "us-east-1",
     access_key="Q3AM3UQ867SPQQA43P2F",
     secret_key="zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG"
 )

@@ -1,44 +1,47 @@
-# Fichiers Python compilés
-__pycache__/
-*.py[cod]
-*$py.class
-
-# Environnements virtuels
+# Dossiers des environnements virtuels
 venv/
 .env/
-*.env
+.venv/
 
-# Dépendances installées
-*.egg-info/
-*.dist-info/
+# Fichiers de configuration des environnements virtuels
+pip-log.txt
+pip-delete-this-directory.txt
 
-# Logs et fichiers temporaires
+# Cache Python
+__pycache__/
+*.py[cod]
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Logs
+logs/
 *.log
-*.tmp
-*.swp
 
-# Fichiers spécifiques à l'IDE
+# Base de données SQLite
+*.sqlite3
+*.db
+
+# Fichiers de test et couverture de code
+.coverage
+htmlcov/
+*.cover
+*.py,cover
+
+# Configuration d’éditeur (VS Code, PyCharm, etc.)
 .vscode/
 .idea/
 *.iml
 
-# Fichiers de base de données temporaires
-*.sqlite3
-*.db
-
 # Docker
-docker-compose.override.yml
-.env.docker
+.dockerignore
 
-# Clés et configurations sensibles
-config.json
-secrets.json
+# Dépendances installées (si présentes)
+site-packages/
 
-# Jupyter Notebooks checkpoints
-.ipynb_checkpoints/
+# Clés et secrets (⚠️ à ne jamais committer)
+*.pem
+*.key
+.env
 
-# Fichiers générés par tests et coverage
-.coverage
-htmlcov/
-nosetests.xml
-pytest_cache/
+
