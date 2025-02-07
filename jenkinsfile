@@ -25,10 +25,10 @@ pipeline {
 
                     # Créer et activer l'environnement virtuel avec bash
                     python3 -m venv venv
-                    bash -c "source venv/bin/activate && pip install --upgrade pip"
+                    bash -c "source venv/bin/activate && pip install --upgrade pip &&  pip freeze &&  pip freeze > requirements.txt"
 
-                    pip freeze
-                    pip freeze > requirements.txt
+                   
+                   
                               
                     '''
                 }
