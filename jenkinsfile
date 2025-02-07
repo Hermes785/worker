@@ -41,6 +41,9 @@ pipeline {
                     
                     sh 'bash -c "source venv/bin/activate && pip install -r requirements.txt"'
                     sh 'rm -ri fitz || true'
+                    sh 'ls ./app || true'
+                    sh 'ls /app || true'
+                    sh 'cat requirements.txt'
                 }
             }
         }
