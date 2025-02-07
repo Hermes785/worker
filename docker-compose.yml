@@ -16,8 +16,7 @@ services:
 
     networks:
       - my_network
-    volumes:
-      - .:/app
+    command: python /app/worker.py
 
   db:
     image: mysql:8.0
