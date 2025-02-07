@@ -4,6 +4,8 @@ FROM python:3.11
 # Set the working directory in the container
 WORKDIR /app
 
+RUN pip install pymupdf
+
 # Copy the requirements file into the container
 COPY requirements.txt /app/
 
