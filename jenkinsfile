@@ -22,6 +22,9 @@ stage('Setup Python Environment') {
                 sudo apt update && sudo apt install -y python3-venv
             fi
 
+            # Installer les outils nécessaires à la construction des paquets
+            sudo apt update && sudo apt install -y build-essential python3-dev
+
             # Créer et activer l'environnement virtuel
             python3 -m venv venv
             venv/bin/python -m pip install --upgrade pip
