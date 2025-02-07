@@ -31,6 +31,18 @@ pipeline {
             }
         }
 
+        stage('Check for requirements.txt') {
+            steps {
+                script {
+                    // Vérifier si requirements.txt existe bien dans le répertoire
+                    def requirementsExist = fileExists 'requirements.txt'
+                    if (!requirementsExist) {
+                        error "Le fichier 'requirements.txt' est manquant dans le dépôt !"
+                    }
+                }
+            }
+        }
+
         stage('Install Dependencies') {
             steps {
                 script {
