@@ -13,26 +13,29 @@ pipeline {
                 checkout scm
             }
         }
+stage('Setup Python Environment') {
+    steps {
+        script {
+            sh '''
+            # Vérifier si python3-venv est installé (Debian/Ubuntu)
+            if ! dpkg -s python3-venv >/dev/null 2>&1; then
+                sudo apt update && sudo apt install -y python3-venv
+            fi
 
-        stage('Setup Python Environment') {
-            steps {
-                script {
-                    sh '''
-                    # Installer python3-venv si nécessaire (Debian/Ubuntu)
-                    if ! command -v python3 -m venv >/dev/null 2>&1; then
-                        sudo apt update && sudo apt install -y python3-venv
-                    fi
-
-                    # Créer et activer l'environnement virtuel
-                    python3 -m venv venv
-                    venv/bin/python -m pip install --upgrade pip
-                     pip install --no-cache-dir pymupdf
-                    venv/bin/python -m pip freeze > requirements.txt
-                   
-                    '''
-                }
-            }
+            # Créer et activer l'environnement virtuel
+            python3 -m venv venv
+            venv/bin/python -m pip install --upgrade pip
+            
+            # Installer les dépendances dans le venv
+            venv/bin/python -m pip install --no-cache-dir pymupdf
+            
+            # Enregistrer les paquets installés
+            venv/bin/python -m pip freeze > requirements.txt
+            '''
         }
+    }
+}
+
 
         stage('Install Dependencies') {
             steps {
