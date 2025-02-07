@@ -77,7 +77,6 @@ stage('Setup Python Environment') {
             steps {
                 script {
                     sh '''
-                    ls -l /app
                     docker stop worker_container || true
                     docker rm worker_container || true
                     docker-compose -f docker-compose.yml pull

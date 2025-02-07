@@ -34,9 +34,12 @@ RUN apk add --no-cache \
 COPY requirements.txt ./
 
 # Copier tout le code dans l'image
-COPY . .
+COPY . /app/
+
 
 RUN chmod +x /app/worker.py
+
+RUN ls -l /app
 
 EXPOSE 5000
 
