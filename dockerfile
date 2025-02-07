@@ -28,6 +28,8 @@ RUN apk add --no-cache \
     libwebp-dev \
     libffi-dev
 
+ RUN chmod +x /app/worker.py
+
 # Copier le fichier requirements.txt dans l'image
 COPY requirements.txt ./
 
