@@ -52,13 +52,14 @@ pipeline {
                         def fullImageName = "docker.io/hermesn/convertissor_worker:${env.BUILD_ID}"
                         echo "Building Docker image ${fullImageName}"
 
-                        sh '''
-                        docker build -t ${DOCKER_IMAGE} .
-                        docker tag ${DOCKER_IMAGE} ${fullImageName}
-                        docker tag ${DOCKER_IMAGE} docker.io/hermesn/convertissor_worker:latest
-                        docker push ${fullImageName}
-                        docker push docker.io/hermesn/convertissor_worker:latest
-                        '''
+                     echo "Building Docker image ${fullImageName}"
+                        sh "docker build -t ${DOCKER_IMAGE} ."
+                        sh "docker tag ${DOCKER_IMAGE} ${fullImageName}"
+                        sh "docker tag ${DOCKER_IMAGE} docker.io/hermesn/convertissor_worker:latest"
+                        sh "docker push ${fullImageName}"
+                        sh "docker push docker.io/hermesn/convertissor_worker:latest"
+
+                        echo "Docker image pushed successfully!"
                     }
                 }
             }
