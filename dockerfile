@@ -32,6 +32,7 @@ RUN apk add --no-cache \
 
 # Copier le fichier requirements.txt dans l'image
 COPY requirements.txt ./
+RUN pip install --no-cache-dir pymupdf && pip install --no-cache-dir -r requirements.txt
 
 # Copier tout le code dans l'image
 COPY . /app/
