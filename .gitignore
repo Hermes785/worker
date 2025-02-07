@@ -45,5 +45,6 @@ site-packages/
 .env
 
 requirements.txt
+tmp
 
 
