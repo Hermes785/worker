@@ -5,28 +5,26 @@ FROM python:3.11-slim
 WORKDIR /app
 
 # Installer les dépendances système nécessaires
-RUN apk add --no-cache \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \
     g++ \
     cmake \
     make \
     python3-dev \
-    musl-dev \
-    jpeg-dev \
-    zlib-dev \
-    libjpeg \
-    tiff \
-    libpng \
-    freetype-dev \
-    lcms2-dev \
-    openjpeg-dev \
-    tiff-dev \
+    libjpeg-dev \
+    zlib1g-dev \
+    libtiff-dev \
+    libpng-dev \
+    libfreetype6-dev \
+    liblcms2-dev \
+    libopenjp2-7-dev \
+    libharfbuzz-dev \
+    libfribidi-dev \
+    libwebp-dev \
+    libffi-dev \
     tk-dev \
     tcl-dev \
-    harfbuzz-dev \
-    fribidi-dev \
-    libwebp-dev \
-    libffi-dev
+    && rm -rf /var/lib/apt/lists/*
 
 
 
