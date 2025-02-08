@@ -96,7 +96,7 @@ def generateUrlFile(bucket_Name,destination_file):
 def kafkaService():
     consumer = KafkaConsumer(
         'files_to_convert',
-        bootstrap_servers='localhost:29092',
+        bootstrap_servers='kafka:9092',
         auto_offset_reset='earliest',
         enable_auto_commit=True
     )
