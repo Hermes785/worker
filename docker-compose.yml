@@ -28,7 +28,7 @@ services:
       MYSQL_USER: myuser
       MYSQL_PASSWORD: mypassword
     ports:
-      - "3306:3306"
+      - "3316:3306"
     networks:
       - my_network
     volumes:
