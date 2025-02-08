@@ -56,7 +56,7 @@ def sendToBD(requestId,bucket_Name,file_path,destination_file,urlGenerated):
         mydb = mysql.connector.connect(
         host="mysql_db_worker",
         user="myuser",
-        password="rootpassword")
+        password="mypassword")
         mycursor = mydb.cursor()
         mycursor.execute("CREATE DATABASE IF NOT EXISTS file_convert ")
         print("Base de données créée avec succès.")
