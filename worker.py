@@ -50,6 +50,17 @@ def minioUploadDocsFile(bucket_Name,source_file,destination_file):
         print(f"Erreur lors de l'upload du fichier du fichier : {e}")
         return None
     
+ # fonction pour generer le lien de telechargent   
+def generateUrlFile(bucket_Name,destination_file):
+    try:
+        urlGenerated= minio_client.presigned_get_object(bucket_Name, destination_file, expires=timedelta(seconds=3600))
+        print(f"URL généré pour le fichier {destination_file} : {urlGenerated}")  
+        return urlGenerated      
+    except Exception as ex:
+        print(f"Erreur inattendue : {ex}")
+        return False    
+    
+    
   # fonction pour la connection a la base de donnees  
 def sendToBD(requestId, bucket_Name, file_path, destination_file, urlGenerated):
     try:
@@ -88,14 +99,7 @@ def sendToBD(requestId, bucket_Name, file_path, destination_file, urlGenerated):
             print("Erreur lors de la fermeture de la connexion :", ex)
 
             
-def generateUrlFile(bucket_Name,destination_file):
-    try:
-        urlGenerated= minio_client.presigned_get_object(bucket_Name, destination_file, expires=timedelta(seconds=3600))
-        print(f"URL généré pour le fichier {destination_file} : {urlGenerated}")  
-        return urlGenerated      
-    except Exception as ex:
-        print(f"Erreur inattendue : {ex}")
-        return False
+
     
 # Fonction pour consommer le message kafka 
 def kafkaService():
