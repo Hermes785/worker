@@ -127,7 +127,7 @@ def kafkaService():
             cv.convert(docx_path,start=0, end=None, 
                        extract_image=True, 
                        detect_orientation=True)
-            cv.close()
+            
             print(f"Conversion terminée : {docx_path}")
             destination_file = docx_path.split("/")[-1] 
            
@@ -135,6 +135,8 @@ def kafkaService():
             minioUploadDocsFile(bucket_Name,docx_path,destination_file)
             urlGenerated = generateUrlFile(bucket_Name,destination_file)
             sendToBD(requestId,bucket_Name,file_path,destination_file,urlGenerated)
+            
+            cv.close()
         else:
             print("Le fichier n'a pas pu être téléchargé, conversion annulée.")
             
