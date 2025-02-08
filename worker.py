@@ -51,46 +51,42 @@ def minioUploadDocsFile(bucket_Name,source_file,destination_file):
         return None
     
   # fonction pour la connection a la base de donnees  
-def sendToBD(requestId,bucket_Name,file_path,destination_file,urlGenerated):
+def sendToBD(requestId, bucket_Name, file_path, destination_file, urlGenerated):
     try:
+        print("Tentative de connexion à la base de données MySQL...")
         mydb = mysql.connector.connect(
-        host="mysql_db_worker",
-        user="myuser",
-        password="mypassword")
+            host="mysql_db_worker",
+            user="myuser",
+            password="mypassword",
+            connection_timeout=5
+        )
+        print("Connexion établie.")
         mycursor = mydb.cursor()
-        mycursor.execute("CREATE DATABASE IF NOT EXISTS file_convert ")
-        print("Base de données créée avec succès.")
+        mycursor.execute("CREATE DATABASE IF NOT EXISTS file_convert")
+        print("Base de données vérifiée/créée.")
         mycursor.execute("USE file_convert")
-        mycursor.execute("CREATE TABLE IF NOT EXISTS  file (id INT AUTO_INCREMENT PRIMARY KEY,requestId VARCHAR(255), bucket_Name VARCHAR(255), file_path VARCHAR(255),filename VARCHAR(255),urlGenerated VARCHAR(255))")  
-        print("Table créée avec succès.")
-        sql = "INSERT INTO file (requestId,bucket_Name,file_path,filename,urlGenerated) VALUES( %s,%s,%s,%s,%s)"
-        val = (requestId, bucket_Name, file_path,destination_file,urlGenerated )
+        mycursor.execute("CREATE TABLE IF NOT EXISTS file (id INT AUTO_INCREMENT PRIMARY KEY, requestId VARCHAR(255), bucket_Name VARCHAR(255), file_path VARCHAR(255), filename VARCHAR(255), urlGenerated VARCHAR(255))")
+        print("Table vérifiée/créée.")
+        sql = "INSERT INTO file (requestId, bucket_Name, file_path, filename, urlGenerated) VALUES(%s, %s, %s, %s, %s)"
+        val = (requestId, bucket_Name, file_path, destination_file, urlGenerated)
         mycursor.execute(sql, val)
         mydb.commit()
         print("Données insérées avec succès.")
-        
     except mysql.connector.Error as e:
         print(f"Erreur MySQL [{e.errno}]: {e.msg}")
         return False
-
     except Exception as ex:
         print(f"Erreur inattendue : {ex}")
         return False
-
     finally:
-        if mycursor:
-            mycursor.close()
-        if mydb:
-            mydb.close()
-            
-def generateUrlFile(bucket_Name,destination_file):
-    try:
-        urlGenerated= minio_client.presigned_get_object(bucket_Name, destination_file, expires=timedelta(seconds=3600))
-        print(f"URL généré pour le fichier {destination_file} : {urlGenerated}")  
-        return urlGenerated      
-    except Exception as ex:
-        print(f"Erreur inattendue : {ex}")
-        return False
+        try:
+            if mycursor:
+                mycursor.close()
+            if mydb:
+                mydb.close()
+        except Exception as ex:
+            print("Erreur lors de la fermeture de la connexion :", ex)
+
     
 # Fonction pour consommer le message kafka 
 def kafkaService():
@@ -130,8 +126,6 @@ def kafkaService():
             print("Le fichier n'a pas pu être téléchargé, conversion annulée.")
             
             
-
-                    
 
 
 kafkaService()
