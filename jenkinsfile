@@ -79,6 +79,9 @@ stage('Setup Python Environment') {
                     sh '''
                     docker stop worker_container || true
                     docker rm worker_container || true
+                    docker-compose -f docker-compose.yml  down -v
+                    docker stop mysql_db_worker || true
+                    docker rm msql_db_worker || true
                     docker-compose -f docker-compose.yml pull
                     docker-compose -f docker-compose.yml up -d
                     sleep 10
