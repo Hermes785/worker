@@ -1,5 +1,5 @@
 # Utiliser une image Alpine avec les dépendances système nécessaires
-FROM python:3.11-alpine
+FROM python:3.11-slim
 
 # Définir le répertoire de travail
 WORKDIR /app
