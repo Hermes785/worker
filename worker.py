@@ -69,8 +69,11 @@ def sendToBD(requestId, bucket_Name, file_path, destination_file, urlGenerated):
             host="mysql_db_worker",
             user="myuser",
             password="mypassword",
-            connection_timeout=5
+            connection_timeout=5,
+          
         )
+          mydb.autocommit = True
+          
         print("Connexion établie.")
         mycursor = mydb.cursor()
         mycursor.execute("CREATE DATABASE IF NOT EXISTS file_convert")
