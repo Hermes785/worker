@@ -72,8 +72,7 @@ def sendToBD(requestId, bucket_Name, file_path, destination_file, urlGenerated):
             connection_timeout=5,
           
         )
-          mydb.autocommit = True
-          
+        mydb.autocommit = True
         print("Connexion établie.")
         mycursor = mydb.cursor()
         mycursor.execute("CREATE DATABASE IF NOT EXISTS file_convert")
