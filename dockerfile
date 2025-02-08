@@ -30,7 +30,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Copier le fichier requirements.txt dans l'image
 COPY requirements.txt ./
-RUN pip install --no-cache-dir pymupdf python-docx numpy opencv-python-headless && pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir pymupdf python-docx numpy opencv-python-headless fontTools && pip install --no-cache-dir -r requirements.txt
 
 
 # Copier tout le code dans l'image
