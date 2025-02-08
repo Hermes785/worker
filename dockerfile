@@ -32,7 +32,7 @@ RUN apk add --no-cache \
 
 # Copier le fichier requirements.txt dans l'image
 COPY requirements.txt ./
-RUN pip install --no-cache-dir pymupdf python-docx numpy opencv-python && pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir pymupdf python-docx numpy opencv-python-headless && pip install --no-cache-dir -r requirements.txt
 
 
 # Copier tout le code dans l'image
