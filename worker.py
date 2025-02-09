@@ -126,14 +126,9 @@ def kafkaService():
             docx_path = pdf_path.replace(".pdf", ".docx")  
             file_path=docx_path
             cv = Converter(pdf_path)
-            cv.convert(docx_path,start=0, end=None, 
-                       extract_image=True, 
-                       detect_orientation=True)
-            
+            cv.convert(docx_path, start=0, end=None, extract_image=True, clip_image_res_ratio=1.0)
             print(f"Conversion terminée : {docx_path}")
-            destination_file = docx_path.split("/")[-1] 
-           
-            
+            destination_file = docx_path.split("/")[-1]            
             minioUploadDocsFile(bucket_Name,docx_path,destination_file)
             urlGenerated = generateUrlFile(bucket_Name,destination_file)
             sendToBD(requestId,bucket_Name,file_path,destination_file,urlGenerated)
