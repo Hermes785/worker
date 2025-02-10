@@ -30,7 +30,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Copier le fichier requirements.txt dans l'image
 COPY requirements.txt ./
-RUN pip install --no-cache-dir pymupdf python-docx PIL numpy minio opencv-python-headless  kafka fontTools && pip install mysql-connector-python --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir pymupdf python-docx pillow numpy minio opencv-python-headless   fontTools && pip install mysql-connector-python --no-cache-dir -r requirements.txt
 RUN pip install --no-cache-dir --upgrade kafka-python
 
 
